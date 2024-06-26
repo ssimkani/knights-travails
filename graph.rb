@@ -38,10 +38,23 @@ class Graph
       value.compact!
     end
   end
+
+  def bfs(start)
+    queue = [start]
+    arr = []
+    until queue.empty?
+      node = queue.shift
+      yield node if block_given?
+      arr << node
+      graph[node].each { |coord| queue << coord unless queue.include?(coord) || arr.include?(coord) }
+    end
+    arr
+  end
 end
 
 g = Graph.new
 g.create_nodes
 g.create_edges
 
-puts g.graph
+bfs = g.bfs [0, 0]
+p bfs.length
