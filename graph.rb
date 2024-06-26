@@ -32,6 +32,7 @@ class Graph
         graph[node][counter] = nil if coord[0].negative? || coord[1].negative? || coord[0] > 7 || coord[1] > 7
         counter += 1
       end
+      value.compact!
     end
   end
 end
