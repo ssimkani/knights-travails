@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
+# Class that represents the graph used for knight traversal
 class Graph
   attr_accessor :graph
 
+  # Initializes the graph
   def initialize
     @graph = create_graph
   end
 
+  # Creates the nodes and edges for the graph
   def create_graph
     graph = {}
     nodes = []
@@ -15,6 +18,7 @@ class Graph
     graph
   end
 
+  # Creates nodes
   def create_nodes(nodes)
     (0..7).each do |num|
       (0..7).each do |num2|
@@ -23,6 +27,7 @@ class Graph
     end
   end
 
+  # Creates edges
   def create_edges(graph, nodes)
     moves = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
     nodes.each do |node|
@@ -34,6 +39,7 @@ class Graph
     remove_out_of_bounds(graph)
   end
 
+  # Removes nodes that are out of bounds
   def remove_out_of_bounds(graph)
     graph.each do |node, value|
       value.each do |coord|
@@ -46,8 +52,11 @@ class Graph
     end
   end
 
+  # Algorithm for BFS
   def bfs(start_node, end_node)
     queue = [start_node]
+
+    # hash that keeps track of the parent nodes
     visited = { start_node => nil }
 
     until queue.empty?
@@ -64,6 +73,7 @@ class Graph
     visited
   end
 
+  # Calculates the shortest path between two given nodes
   def shortest_path(start_node, end_node)
     visited = bfs(start_node, end_node)
     path = []
