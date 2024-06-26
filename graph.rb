@@ -39,16 +39,34 @@ class Graph
     end
   end
 
-  def bfs(start)
-    queue = [start]
-    arr = []
+  def bfs(start_node, end_node)
+    queue = [start_node]
+    visited = { start_node => nil }
+
     until queue.empty?
       node = queue.shift
-      yield node if block_given?
-      arr << node
-      graph[node].each { |coord| queue << coord unless queue.include?(coord) || arr.include?(coord) }
+      break if node == end_node
+
+      graph[node].each do |neighbor|
+        unless visited.key?(neighbor)
+          queue << neighbor
+          visited[neighbor] = node
+        end
+      end
     end
-    arr
+    visited
+  end
+
+  def shortest_path(start_node, end_node)
+    visited = bfs(start_node, end_node)
+    path = []
+    current = end_node
+    while current != start_node
+      path += [current]
+      current = visited[current]
+    end
+
+    path.reverse.unshift(start_node)
   end
 end
 
@@ -56,5 +74,4 @@ g = Graph.new
 g.create_nodes
 g.create_edges
 
-bfs = g.bfs [0, 0]
-p bfs.length
+p g.shortest_path([0, 0], [1, 2])
