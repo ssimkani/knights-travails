@@ -1,14 +1,21 @@
 # frozen_string_literal: true
 
 class Graph
-  attr_accessor :graph, :nodes
+  attr_accessor :graph
 
   def initialize
-    @graph = {}
-    @nodes = []
+    @graph = create_graph
   end
 
-  def create_nodes
+  def create_graph
+    graph = {}
+    nodes = []
+    create_nodes(nodes)
+    create_edges(graph, nodes)
+    graph
+  end
+
+  def create_nodes(nodes)
     (0..7).each do |num|
       (0..7).each do |num2|
         nodes << [num, num2]
@@ -16,7 +23,7 @@ class Graph
     end
   end
 
-  def create_edges
+  def create_edges(graph, nodes)
     moves = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
     nodes.each do |node|
       adjacent = []
@@ -24,10 +31,10 @@ class Graph
       graph[node] = adjacent
     end
 
-    remove_out_of_bounds
+    remove_out_of_bounds(graph)
   end
 
-  def remove_out_of_bounds
+  def remove_out_of_bounds(graph)
     graph.each do |node, value|
       value.each do |coord|
         if coord[0].negative? || coord[1].negative? || coord[0] > 7 || coord[1] > 7
@@ -69,9 +76,3 @@ class Graph
     path.reverse.unshift(start_node)
   end
 end
-
-g = Graph.new
-g.create_nodes
-g.create_edges
-
-p g.shortest_path([0, 0], [1, 2])
