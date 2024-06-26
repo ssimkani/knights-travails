@@ -4,14 +4,7 @@ require_relative 'graph'
 
 class Knight
   def initialize
-    @graph = create_graph
-  end
-
-  def create_graph
-    graph = Graph.new
-    graph.create_nodes
-    graph.create_edges
-    graph
+    @graph = Graph.new
   end
 
   def knight_moves(start_node, end_node)
