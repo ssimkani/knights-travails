@@ -23,14 +23,17 @@ class Graph
       moves.each { |move| adjacent << [node[0] + move[0], node[1] + move[1]] }
       graph[node] = adjacent
     end
+
+    remove_out_of_bounds
   end
 
   def remove_out_of_bounds
-    counter = 0
     graph.each do |node, value|
       value.each do |coord|
-        graph[node][counter] = nil if coord[0].negative? || coord[1].negative? || coord[0] > 7 || coord[1] > 7
-        counter += 1
+        if coord[0].negative? || coord[1].negative? || coord[0] > 7 || coord[1] > 7
+          graph[node][value.index(coord)] =
+            nil
+        end
       end
       value.compact!
     end
