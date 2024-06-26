@@ -24,6 +24,16 @@ class Graph
       graph[node] = adjacent
     end
   end
+
+  def remove_out_of_bounds
+    counter = 0
+    graph.each do |node, value|
+      value.each do |coord|
+        graph[node][counter] = nil if coord[0].negative? || coord[1].negative? || coord[0] > 7 || coord[1] > 7
+        counter += 1
+      end
+    end
+  end
 end
 
 g = Graph.new
