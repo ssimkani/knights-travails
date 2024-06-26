@@ -14,6 +14,20 @@ class Graph
         nodes << [num, num2]
       end
     end
-    nodes
+  end
+
+  def create_edges
+    moves = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
+    nodes.each do |node|
+      adjacent = []
+      moves.each { |move| adjacent << [node[0] + move[0], node[1] + move[1]] }
+      graph[node] = adjacent
+    end
   end
 end
+
+g = Graph.new
+g.create_nodes
+g.create_edges
+
+puts g.graph
